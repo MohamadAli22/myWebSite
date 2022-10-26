@@ -758,7 +758,7 @@ function openForm() {
 }
 
 function sendInput(input) {
-    var theUrl = "http://mdsc-dev.cs.ualberta.ca:86/api/public/emotion-test?text="+input
+    var theUrl = "https://mdsc.cs.ualberta.ca/api/public/emotion-test?text="+input
     var xmlHttp = new XMLHttpRequest();
     xmlHttp.open( "GET", theUrl ); // false for synchronous request
 	//xmlHttp.setRequestHeader('Access-Control-Allow-Headers', '*');
