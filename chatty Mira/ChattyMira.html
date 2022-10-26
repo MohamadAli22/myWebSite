@@ -697,7 +697,7 @@ blockquote {
 /* Add styles to the form container */
 .form-container {
   max-width: 95%;
-  padding: 10px;
+  padding: 2px;
   background-color: white;
 }
 
@@ -735,29 +735,35 @@ blockquote {
 .form-container .btn:hover, .open-button:hover {
   opacity: 1;
 } 
-	
 </style></head><body>
 <article id="29617a83-4603-4d07-9e50-cab50e0082ab" class="page sans"><header><img class="page-cover-image" src="https://www.notion.so/images/page-cover/met_goya_1789.jpg" style="object-position:center 21.840000000000003%"/><h1 class="page-title">Chatty Mira (former eEliza)</h1></header><div class="page-body"><p id="63ffe056-17c2-42e9-a65f-c95f1f208339" class="">This website is designed and implemented to test first version of CHATTY MIRA. </p><p id="1037ce6f-9b0c-4a11-852a-7c28ec1012f9" class="">It is now deployed on the Dev server and might be slow 🐢.</p><p id="b4ccbe21-c12e-490b-908a-a55071d74af8" class="">
 </p><h2 id="4003ed93-6506-4506-b259-73c6295b9f47" class="">🍴 Introduction</h2><p id="c48b5877-1509-4d26-ae1f-2ea2aaa23cfd" class="">🕑 <strong>This session will take about 5-10 minutes.</strong></p><p id="64ccbf1c-4299-470c-9a71-9158de1f30e9" class="">💬 <strong>You may ask how “Chatty Mira” works? </strong>
 It first detects user’s input <strong>emotion </strong>and then based on the detected <strong>topic </strong>it will generate the response. Responses to <mark class="highlight-red">Sad, Angry, Fear</mark> will be with <mark class="highlight-red_background">empathy</mark> while responses to <mark class="highlight-blue">joy</mark>, and <mark class="highlight-blue">neutral</mark> will be with <mark class="highlight-blue_background">neutral</mark> sentences.</p><p id="e63e1a16-873a-46bc-a0af-7ffafffea492" class="">
 </p><h2 id="69902cf8-7515-4dea-8036-090d22c7fb47" class="">🤹🏻‍♀️ Evaluation</h2><p id="77968d20-9071-45e6-8137-1b3852bc0a48" class="">You can talk about anything but our recommended topics are as follows:
 <strong>Your Dreams, wishes, family, yourself, everyone, feelings</strong>, and etc.</p></div></article>
-
   <form class="form-container">
     <h1>Chatty MIRA</h1>
-
     <label id="labelid" for="msg"><b>Message:</b></label>
     <textarea id="textareaid" placeholder="Type message.." name="msg" rows="4" cols="100" required></textarea>
     <button type="submit" id="btnid" class="btn">Send</button>
   </form>
-
-
+  <button id="btnid2" class="btn select-value-color-orange">Report this</button>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script
+      src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"
+      integrity="sha512-uto9mlQzrs59VwILcLiRYeLKPPbS/bT71da/OEBYEwcdNUk8jYIy+D176RYoop1Da+f9mvkYrmj5MCLZWEtQuA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+	
 <script>
 function openForm() {
   document.getElementById("myForm").style.display = "block";
 }
 
 function sendInput(input) {
+//https://mdsc.cs.ualberta.ca/api/public/emotion-test
+//http://mdsc-dev.cs.ualberta.ca:86/api/public/emotion-test
     var theUrl = "https://mdsc.cs.ualberta.ca/api/public/emotion-test?text="+input
     var xmlHttp = new XMLHttpRequest();
     xmlHttp.open( "GET", theUrl ); // false for synchronous request
@@ -770,7 +776,7 @@ function sendInput(input) {
         {
             response = JSON.parse(xmlHttp.responseText);
 			let label = document.getElementById("labelid");
-			label.innerHTML  = "detected Emotion: " + response.res.detected_emotion + "\n static-response: "+response.res.static_rulebased_res + "\n dynamic-response: " + response.res.dynamic_rulebased_res	
+			label.innerHTML  = "topic or key: "+response.res.emp_static_rulebased_res.key + "\n emp-static-response: "+response.res.emp_static_rulebased_res.response + "\n ne-static-response: "+response.res.nu_static_rulebased_res.response + "\n dynamic-response: " + response.res.dynamic_rulebased_res.response	
         }
     }
     xmlHttp.send( null );
@@ -780,12 +786,43 @@ function sendInput(input) {
 
 
 let btn = document.getElementById("btnid");
-
-
 btn.addEventListener('click', event => {
   event.preventDefault();
   var t = document.getElementById("textareaid").value;
   sendInput(t);
+});
+
+let btn2 = document.getElementById("btnid2");
+btn2.addEventListener('click', event => {
+  event.preventDefault();
+  let page_source = document.documentElement.innerHTML;
+      let url = "https://www.magharaat.ir/public/reportLog";
+      let session_id = $("#session-id").val();
+
+      let comment = prompt(
+        "You are reporting a bug/suggestion to the chatbot development team. the screenshot of this chat wil be send to the server. Please enter your comment:"
+      );
+
+      if (comment !== null) {
+        console.log("sending request now");
+
+        $.ajax({
+          method: "POST",
+          url: url,
+          crossDomain: true,
+          dataType: "json",
+          data: {
+            session_id: session_id,
+            page_source: page_source,
+            comment: comment,
+          },
+        }).done(function (msg) {
+          console.log(msg);
+          alert(
+            "Thank you for your time. Developers have been notified automatically."
+          );
+        });
+      }
 });
 
 </script>
