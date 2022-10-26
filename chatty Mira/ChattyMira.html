@@ -705,11 +705,11 @@ blockquote {
 .form-container textarea {
   width: 100%;
   padding: 15px;
-  margin: 5px 0 22px 0;
+  margin: 5px 0 10px 0;
   border: none;
   background: #f1f1f1;
   resize: none;
-  min-height: 200px;
+  min-height: 150px;
 }
 
 /* When the textarea gets focus, do something */
@@ -744,7 +744,7 @@ It first detects user’s input <strong>emotion </strong>and then based on the d
   <form class="form-container">
     <h1>Chatty MIRA</h1>
     <label id="labelid" for="msg"><b>Message:</b></label>
-    <textarea id="textareaid" placeholder="Type message.." name="msg" rows="4" cols="100" required></textarea>
+    <textarea id="textareaid" placeholder="Type message.." name="msg"  required></textarea>
     <button type="submit" id="btnid" class="btn">Send</button>
   </form>
   <button id="btnid2" class="btn select-value-color-orange">Report this</button>
@@ -812,7 +812,7 @@ btn2.addEventListener('click', event => {
           crossDomain: true,
           dataType: "json",
           data: {
-            session_id: session_id,
+            session_id: "chatty Mira",
             page_source: page_source,
             comment: comment,
           },
