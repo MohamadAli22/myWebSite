@@ -709,7 +709,7 @@ blockquote {
   border: none;
   background: #f1f1f1;
   resize: none;
-  min-height: 150px;
+  min-height: 100px;
 }
 
 /* When the textarea gets focus, do something */
@@ -730,11 +730,21 @@ blockquote {
   opacity: 0.8;
 }
 
+.inline-btn {
+	display: inline-block;
+	width: 100%;
+}
 
 /* Add some hover effects to buttons */
 .form-container .btn:hover, .open-button:hover {
   opacity: 1;
 } 
+
+.grid-container {
+  display: grid;
+  width:100%;
+  text-align: center;
+}
 </style></head><body>
 <article id="29617a83-4603-4d07-9e50-cab50e0082ab" class="page sans"><header><img class="page-cover-image" src="https://www.notion.so/images/page-cover/met_goya_1789.jpg" style="object-position:center 21.840000000000003%"/><h1 class="page-title">Chatty Mira (former eEliza)</h1></header><div class="page-body"><p id="63ffe056-17c2-42e9-a65f-c95f1f208339" class="">This website is designed and implemented to test first version of CHATTY MIRA. </p><p id="1037ce6f-9b0c-4a11-852a-7c28ec1012f9" class="">It is now deployed on the Dev server and might be slow 🐢.</p><p id="b4ccbe21-c12e-490b-908a-a55071d74af8" class="">
 </p><h2 id="4003ed93-6506-4506-b259-73c6295b9f47" class="">🍴 Introduction</h2><p id="c48b5877-1509-4d26-ae1f-2ea2aaa23cfd" class="">🕑 <strong>This session will take about 5-10 minutes.</strong></p><p id="64ccbf1c-4299-470c-9a71-9158de1f30e9" class="">💬 <strong>You may ask how “Chatty Mira” works? </strong>
@@ -746,13 +756,12 @@ It first detects user’s input <strong>emotion </strong>and then based on the d
 </article>
   <form class="form-container">
     <h1>Chatty MIRA</h1>
-    <label id="labelid" for="msg"><b>Message:</b></label>
-    <textarea id="textareaid" placeholder="Type message.." name="msg"  required></textarea>
-    <button type="submit" id="btnid" class="btn">Send</button>
-  </form>
-  <button id="btnid2" class="btn select-value-color-orange">Report this</button>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script
+    <label id="labelid" for="msg"><b>Messages:</b></label>
+	<div class="grid-container" id="feedback-gp">
+	<label id="labelid2"><b>Your Feedback:</b></label>
+	  <button id="btnid-em" onclick="onFeedbackClick()" class="inline-btn">Empathic is better</button>
+	  <button id="btnid-nu" onclick="onFeedbackClick()" class="inline-btn">Neutral is better</button>
+	  <button id="btnid-dy" onclick="onFeedbackClick()" class="inline-btn">Dynamic is better</button></div><textarea id="textareaid" placeholder="Type input.." name="msg"  required></textarea><button type="submit" id="btnid" class="btn">Send</button></form><button id="btnid2" class="btn select-value-color-orange">Report this</button><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script><script
       src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"
       integrity="sha512-uto9mlQzrs59VwILcLiRYeLKPPbS/bT71da/OEBYEwcdNUk8jYIy+D176RYoop1Da+f9mvkYrmj5MCLZWEtQuA=="
       crossorigin="anonymous"
@@ -762,6 +771,26 @@ It first detects user’s input <strong>emotion </strong>and then based on the d
 <script>
 function openForm() {
   document.getElementById("myForm").style.display = "block";
+}
+
+function onFeedbackClick(){
+	event.preventDefault();
+	let label = document.getElementById("labelid");
+	label.innerHTML  = label.innerHTML + "\nChatty Mira: "+event.target.getAttribute('textt');
+	hideFeedbackBtns();
+}
+
+function hideFeedbackBtns() {
+	var feedbackGp = document.getElementById("feedback-gp");
+	feedbackGp.style.visibility = "hidden"
+	
+	var v = document.getElementById("textareaid");
+	v.value = "";
+}
+
+function showFeedbackBtns() {
+	var feedbackGp = document.getElementById("feedback-gp");
+	feedbackGp.style.visibility = "visible"
 }
 
 function sendInput(input) {
@@ -778,8 +807,23 @@ function sendInput(input) {
         if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
         {
             response = JSON.parse(xmlHttp.responseText);
+			let label2 = document.getElementById("labelid2");
+			label2.innerHTML  = "Topic or key: "+response.res.emp_static_rulebased_res.key + "\nEmpathic-response: "+response.res.emp_static_rulebased_res.response + "\nNeutral-response: "+response.res.nu_static_rulebased_res.response + "\nDynamic-response: " + response.res.dynamic_rulebased_res.response	
+			showFeedbackBtns();
+			
+			let btnEm = document.getElementById("btnid-em");
+			btnEm.setAttribute("textt", response.res.emp_static_rulebased_res.response);
+			
+			let btnNu = document.getElementById("btnid-nu");
+			btnNu.setAttribute("textt", response.res.nu_static_rulebased_res.response);
+			
+			let btnDy = document.getElementById("btnid-dy");
+			btnDy.setAttribute("textt", response.res.dynamic_rulebased_res.response);
+			
 			let label = document.getElementById("labelid");
-			label.innerHTML  = "topic or key: "+response.res.emp_static_rulebased_res.key + "\n emp-static-response: "+response.res.emp_static_rulebased_res.response + "\n ne-static-response: "+response.res.nu_static_rulebased_res.response + "\n dynamic-response: " + response.res.dynamic_rulebased_res.response	
+			label.innerHTML  = label.innerHTML + "\nUser: "+input;
+			
+			
         }
     }
     xmlHttp.send( null );
@@ -827,6 +871,9 @@ btn2.addEventListener('click', event => {
         });
       }
 });
+
+hideFeedbackBtns();
+
 
 </script>
 
