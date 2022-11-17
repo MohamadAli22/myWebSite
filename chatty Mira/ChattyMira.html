@@ -759,8 +759,8 @@ It first detects user’s input <strong>emotion </strong>and then based on the d
     <label id="labelid" for="msg"><b>Messages:</b></label>
 	<div class="grid-container" id="feedback-gp">
 	<label id="labelid2"><b>Your Feedback:</b></label>
-	  <button id="btnid-none" onclick="onFeedbackClick()" class="inline-btn">None of them</button>
-	  <button id="btnid-em" class="inline-btn">Empathic is better</button>
+	  <button id="btnid-none" class="inline-btn">None of them</button>
+	  <button id="btnid-em" onclick="onFeedbackClick()" class="inline-btn">Empathic is better</button>
 	  <button id="btnid-nu" onclick="onFeedbackClick()" class="inline-btn">Neutral is better</button>
 	  <button id="btnid-dy" onclick="onFeedbackClick()" class="inline-btn">Dynamic is better</button></div><textarea id="textareaid" placeholder="Type input.." name="msg"  required></textarea><button type="submit" id="btnid" class="btn">Send</button></form><button id="btnid2" class="btn select-value-color-orange">Report this</button><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script><script
       src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"
@@ -873,7 +873,7 @@ btn2.addEventListener('click', event => {
       }
 });
 
-let btn22 = document.getElementById("btnid-em");
+let btn22 = document.getElementById("btnid-none");
 btn22.addEventListener('click', event => {
   event.preventDefault();
   let page_source = document.documentElement.innerHTML;
