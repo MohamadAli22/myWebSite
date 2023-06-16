@@ -747,29 +747,27 @@ blockquote {
 </style></head><body><form class="form-container">
 <h1>Chatty MIRA Vs Eliza </h1>
 <br>
+<label id="labelid_user" for="msg"><b>User:</b></label>
 <label id="labelid2" for="msg"><b>Chatty Mira:</b></label>
+<label id="eliza_response"><b>Eliza:</b></label>
+<label id="falcon_response"><b>Falcon-7B:</b></label>
 <br>
-<div class="grid-container" id="feedback-gp">
-<label id="labelid3"><b>Your Feedback:</b></label>
+<div class="grid-container" id="feedback-gp"><label id="labelid3"><b>Your Feedback:</b></label>
 <div>
-<label for="emotionCheckbox">Emotion is correct</label><input type="checkbox" id="emotionCheckbox" name="emotionCheckbox" >
+<label id="emotion_ch" for="emotionCheckbox">Emotion is correct</label><input type="checkbox" id="emotionCheckbox" name="emotionCheckbox" >
 </div>
 <button id="btnid-em" onclick="onFeedbackClick()" class="inline-btn">Chatty Mira is better /\</button>
 <button id="btnid-none" class="inline-btn">None of them</button>
 <button id="btnid-nu" onclick="onFeedbackClick()" class="inline-btn">Eliza is better \/</button>
 </div>
-<br>
-<label id="eliza_response"><b>Eliza:</b></label>
-	  <textarea id="textareaid" placeholder="Type input.." name="msg"  required></textarea><button type="submit" id="btnid" class="btn">Send</button></form><button id="btnid2" class="btn select-value-color-orange">Report this</button><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script><script
+	  <textarea id="textareaid" placeholder="Type input.." name="msg"  required></textarea><button type="submit" id="btnid" class="btn">Send</button></form><button id="btnid2" class="btn select-value-color-orange">Report this</button>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script><script
       src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"
       integrity="sha512-uto9mlQzrs59VwILcLiRYeLKPPbS/bT71da/OEBYEwcdNUk8jYIy+D176RYoop1Da+f9mvkYrmj5MCLZWEtQuA=="
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
-    ></script>
-	
-	
+></script>
 <SCRIPT language="JavaScript"><!-- 
-
 // Chat Bot by George Dunlop, www.peccavi.com
 // Note - Eliza is a Classic Model of chat Bots.. but this implementation is mine :)
 // May be used/modified if credit line is retained (c) 1997 All rights reserved
@@ -1313,6 +1311,11 @@ function showFeedbackBtns() {
 function sendInput(input) {
 //https://mdsc.cs.ualberta.ca/api/public/emotion-test
 //http://mdsc-dev.cs.ualberta.ca:86/api/public/emotion-test
+	let label_user_msg = document.getElementById("labelid_user");
+	label_user_msg.innerHTML  = "<b>User:</b> "+input
+	let l2 = document.getElementById("labelid2");
+	l2.innerHTML = "<b>Chatty Mira:</b> generating ..."
+	
     var theUrl = "https://mdsc.cs.ualberta.ca/api/public/emotion-test?text="+input+"&num_run_eliza=-1"
     var xmlHttp = new XMLHttpRequest();
     xmlHttp.open( "GET", theUrl ); // false for synchronous request
@@ -1324,7 +1327,15 @@ function sendInput(input) {
         if (xmlHttp.readyState == 4 && xmlHttp.status == 200){
             response = JSON.parse(xmlHttp.responseText);
 			let label2 = document.getElementById("labelid2");
-			label2.innerHTML  = "<b>Chatty Mira:</b>\nTopic or key: "+response.res.output.key + "\nresponse:" +response.res.output.response + "\nemotion: " + response.res.emotion.label +" (confidence:"+ response.res.emotion.score.toFixed(2) * 100 + "%)"
+			let emotion = response.res.emotion
+			let emotion_label =  emotion ? emotion.label : 'no emotion detected' 
+			let emotion_con =  emotion ? response.res.emotion.score : 0
+			
+			let em_ch = document.getElementById("emotion_ch")
+			em_ch.innerHTML = "Is emotion correct?? ("+emotion_label+" ,confidence:"+ emotion_con.toFixed(2)*100 + "%)"
+			
+			//label2.innerHTML  = "<b>Chatty Mira:</b>\nTopic or key: "+response.res.output.key + "\nresponse:" +response.res.output.response + "\nemotion: " + emotion_label +" (confidence:"+ emotion_con.toFixed(2) * 100 + "%)"
+			label2.innerHTML  = "<b>Chatty Mira:</b>"+response.res.output.response
 			showFeedbackBtns();
 			
 			let btnEm = document.getElementById("btnid-em");
@@ -1448,6 +1459,31 @@ function sendInput(input) {
     }
     xmlHttp.send( null );
 	
+	async function query(data) {
+		const response = await fetch(
+			"https://api-inference.huggingface.co/models/tiiuae/falcon-7b",
+			{
+				headers: { Authorization: "Bearer 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" },
+				method: "POST",
+				headers: {
+				  "Content-Type": "application/json",
+				},
+				body: JSON.stringify(data),
+			}
+		);
+		const result = await response.json();
+		return result;
+	}
+	
+	prompt = 'like a chatbot, respond to this: \"' + input+ '\". The bot will respond with'
+	query({"inputs": prompt}).then((response) => {
+		console.log(JSON.stringify(response));
+		let falcon_response = document.getElementById("falcon_response");
+		res = response[0]["generated_text"].substring(prompt.length)
+		falcon_response.innerHTML = "<b>Falcon-7B:</b> "+res
+		
+	});
+	
     return null;
 }
 
@@ -1498,11 +1534,5 @@ btn2.addEventListener('click', event => {
 	
 	
 hideFeedbackBtns();
-
-
 </script>
-
-
-
-
 </body></html>
