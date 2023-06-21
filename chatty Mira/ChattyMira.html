@@ -745,20 +745,130 @@ blockquote {
   text-align: left;
 }
 </style></head><body><form class="form-container">
-<h1>Chatty MIRA Vs Eliza </h1>
-<br>
+<h1>Chatty MIRA Evaluation Form </h1>
+<label id="conversation_history" for="msg"><b></b></label>
+
 <label id="labelid_user" for="msg"><b>User:</b></label>
+
 <label id="labelid2" for="msg"><b>Chatty Mira:</b></label>
 <label id="eliza_response"><b>Eliza:</b></label>
-<label id="falcon_response"><b>Falcon-7B:</b></label>
+<label id="falcon_response"><b>Falcon:</b></label>
 <br>
 <div class="grid-container" id="feedback-gp"><label id="labelid3"><b>Your Feedback:</b></label>
 <div>
 <label id="emotion_ch" for="emotionCheckbox">Emotion is correct</label><input type="checkbox" id="emotionCheckbox" name="emotionCheckbox" >
 </div>
+<!-- 
 <button id="btnid-em" onclick="onFeedbackClick()" class="inline-btn">Chatty Mira is better /\</button>
 <button id="btnid-none" class="inline-btn">None of them</button>
 <button id="btnid-nu" onclick="onFeedbackClick()" class="inline-btn">Eliza is better \/</button>
+-->
+<table id="myTable">
+        <thead>
+            <tr>
+                <th>Method</th>
+                <th id="engagement-score">Engaging Score (1[Lowest]-5[Highest])</th>
+                <th id="empathy-score">Empathic Score (1[Lowest]-5[Highest])</th>
+                <th id="context-score">Context Score (1[Lowest]-5[Highest])</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Chatty Mira</td>
+                <td>
+                    <select>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+						<option value="4">4</option>
+						<option value="5">5</option>
+                    </select>
+                </td>
+                <td>
+                    <select>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+						<option value="4">4</option>
+						<option value="5">5</option>
+                    </select>
+                </td>
+                <td>
+                    <select>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+						<option value="4">4</option>
+						<option value="5">5</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>Eliza</td>
+                <td>
+                    <select>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+						<option value="4">4</option>
+						<option value="5">5</option>
+                    </select>
+                </td>
+                <td>
+                    <select>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+						<option value="4">4</option>
+						<option value="5">5</option>
+                    </select>
+                </td>
+                <td>
+                    <select>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+						<option value="4">4</option>
+						<option value="5">5</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>Falcon</td>
+                <td>
+                    <select>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+						<option value="4">4</option>
+						<option value="5">5</option>
+                    </select>
+                </td>
+                <td>
+                    <select>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+						<option value="4">4</option>
+						<option value="5">5</option>
+                    </select>
+                </td>
+                <td>
+                    <select>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+						<option value="4">4</option>
+						<option value="5">5</option>
+                    </select>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+<p id="empathy-def" style="display: none;">Verbal empathy is meant to capture the 2 goals of understanding another's feelings and then reflecting that understanding via dialogue, coversation cues, acknowledgement, or other ways of saying "I hear you" (you can think of this as the best verbal empathic response).</p>
+<p id="engagement-def" style="display: none;">In the context of a computer system, "engagement" refers to the ability of the system to capture and maintain the attention or interest of the user.</p>
+<p id="context-def" style="display: none;">In the context of a chatbot, "being in context" refers to the chatbot's ability to understand and maintain an understanding of the conversation and the information that has been shared during that conversation.</p>
+<button id="btn-submit-feedback" onclick="calculateSum()" class="inline-btn">submit feedback</button>
 </div>
 	  <textarea id="textareaid" placeholder="Type input.." name="msg"  required></textarea><button type="submit" id="btnid" class="btn">Send</button></form><button id="btnid2" class="btn select-value-color-orange">Report this</button>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script><script
@@ -918,8 +1028,11 @@ blockquote {
 			pass++; phrase(sString, keyidx ); 
 		}
 		keyword[keyidx].last = choice;
+		console.log("check me",response)
 		var rTemp = response[choice];
 		var tempt = rTemp.charAt( rTemp.length - 1 );
+		
+		
 		if(( tempt == "*" ) || ( tempt == "@" )){
 			var sTemp = padString(sString);
 			var wTemp = sTemp.toUpperCase();
@@ -1325,21 +1438,21 @@ function sendInput(input) {
 	xmlHttp.onreadystatechange = function()
     {
         if (xmlHttp.readyState == 4 && xmlHttp.status == 200){
-            response = JSON.parse(xmlHttp.responseText);
+            response_ = JSON.parse(xmlHttp.responseText);
 			let label2 = document.getElementById("labelid2");
-			let emotion = response.res.emotion
+			let emotion = response_.res.emotion
 			let emotion_label =  emotion ? emotion.label : 'no emotion detected' 
-			let emotion_con =  emotion ? response.res.emotion.score : 0
+			let emotion_con =  emotion ? response_.res.emotion.score : 0
 			
 			let em_ch = document.getElementById("emotion_ch")
 			em_ch.innerHTML = "Is emotion correct?? ("+emotion_label+" ,confidence:"+ emotion_con.toFixed(2)*100 + "%)"
 			
 			//label2.innerHTML  = "<b>Chatty Mira:</b>\nTopic or key: "+response.res.output.key + "\nresponse:" +response.res.output.response + "\nemotion: " + emotion_label +" (confidence:"+ emotion_con.toFixed(2) * 100 + "%)"
-			label2.innerHTML  = "<b>Chatty Mira:</b>"+response.res.output.response
+			label2.innerHTML  = "<b>Chatty Mira:</b>"+response_.res.output.response
 			showFeedbackBtns();
 			
 			let btnEm = document.getElementById("btnid-em");
-			btnEm.setAttribute("textt", response.res.output.response);
+			btnEm.setAttribute("textt", response_.res.output.response);
 			btnEm.addEventListener('click', event => {
 			  event.preventDefault();
 			  let label2 = document.getElementById("labelid2");
@@ -1460,7 +1573,7 @@ function sendInput(input) {
     xmlHttp.send( null );
 	
 	async function query(data) {
-		const response = await fetch(
+		const response__ = await fetch(
 			"https://api-inference.huggingface.co/models/tiiuae/falcon-7b",
 			{
 				headers: { Authorization: "Bearer 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" },
@@ -1471,16 +1584,16 @@ function sendInput(input) {
 				body: JSON.stringify(data),
 			}
 		);
-		const result = await response.json();
+		const result = await response__.json();
 		return result;
 	}
 	
 	prompt = 'like a chatbot, respond to this: \"' + input+ '\". The bot will respond with'
-	query({"inputs": prompt}).then((response) => {
-		console.log(JSON.stringify(response));
+	query({"inputs": prompt}).then((response__) => {
+		console.log(JSON.stringify(response__));
 		let falcon_response = document.getElementById("falcon_response");
-		res = response[0]["generated_text"].substring(prompt.length)
-		falcon_response.innerHTML = "<b>Falcon-7B:</b> "+res
+		res = response__[0]["generated_text"].substring(prompt.length)
+		falcon_response.innerHTML = "<b>Falcon:</b> "+res
 		
 	});
 	
@@ -1531,8 +1644,61 @@ btn2.addEventListener('click', event => {
       }
 });
 
+
+
+function calculateSum() {
+	event.preventDefault();
+    var table = document.getElementById("myTable");
+            var rows = table.getElementsByTagName("tr");
+            var dropdownValues = [];
+
+            for (var i = 1; i < rows.length; i++) {
+                var row = rows[i];
+                var cells = row.getElementsByTagName("td");
+
+                for (var j = 1; j < cells.length; j++) {
+                    var select = cells[j].getElementsByTagName("select")[0];
+                    var selectedValue = parseInt(select.value);
+                    dropdownValues.push(selectedValue);
+                }
+            }
+
+	//let label = document.getElementById("conversation_history");
+	//label.innerHTML  = label.innerHTML + "\nChatty Mira: "+event.target.getAttribute('textt');
+	hideFeedbackBtns();
 	
+    console.log(dropdownValues); 
+}
 	
+
+var empathyScore = document.getElementById("empathy-score");
+var empathyDef = document.getElementById("empathy-def");
+empathyScore.addEventListener("mouseover", function() {
+    empathyDef.style.display = "block";
+});
+empathyScore.addEventListener("mouseout", function() {
+    empathyDef.style.display = "none";
+});
+
+var empathyScore1 = document.getElementById("engagement-score");
+var empathyDef1 = document.getElementById("engagement-def");
+empathyScore1.addEventListener("mouseover", function() {
+    empathyDef1.style.display = "block";
+});
+empathyScore1.addEventListener("mouseout", function() {
+    empathyDef1.style.display = "none";
+});
+
+var empathy2Score = document.getElementById("context-score");
+var empathy2Def = document.getElementById("context-def");
+empathy2Score.addEventListener("mouseover", function() {
+    empathy2Def.style.display = "block";
+});
+empathy2Score.addEventListener("mouseout", function() {
+    empathy2Def.style.display = "none";
+});
+
+
 hideFeedbackBtns();
 </script>
 </body></html>
