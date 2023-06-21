@@ -753,10 +753,13 @@ blockquote {
 <label id="labelid2" for="msg"><b>Chatty Mira:</b></label>
 <label id="eliza_response"><b>Eliza:</b></label>
 <label id="falcon_response"><b>Falcon:</b></label>
+<!--<image id="search_gif" src="search.gif"></image> -->
 <br>
 <div class="grid-container" id="feedback-gp"><label id="labelid3"><b>Your Feedback:</b></label>
 <div>
 <label id="emotion_ch" for="emotionCheckbox">Emotion is correct</label><input type="checkbox" id="emotionCheckbox" name="emotionCheckbox" >
+</div>
+<div>
 </div>
 <!-- 
 <button id="btnid-em" onclick="onFeedbackClick()" class="inline-btn">Chatty Mira is better /\</button>
@@ -1424,6 +1427,9 @@ function showFeedbackBtns() {
 function sendInput(input) {
 //https://mdsc.cs.ualberta.ca/api/public/emotion-test
 //http://mdsc-dev.cs.ualberta.ca:86/api/public/emotion-test
+
+hideFeedbackBtns();
+
 	let label_user_msg = document.getElementById("labelid_user");
 	label_user_msg.innerHTML  = "<b>User:</b> "+input
 	let l2 = document.getElementById("labelid2");
@@ -1438,6 +1444,7 @@ function sendInput(input) {
 	xmlHttp.onreadystatechange = function()
     {
         if (xmlHttp.readyState == 4 && xmlHttp.status == 200){
+			showFeedbackBtns()
             response_ = JSON.parse(xmlHttp.responseText);
 			let label2 = document.getElementById("labelid2");
 			let emotion = response_.res.emotion
