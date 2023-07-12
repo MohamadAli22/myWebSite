@@ -995,7 +995,7 @@ blockquote {
     </table>
 <button id="btn-submit-feedback" onclick="calculateSum()" class="btn">submit feedback</button>
 </div>
-	  <textarea id="textareaid" placeholder="Type input.." name="msg"  required></textarea><button type="submit" id="btnid" class="btn">Send</button></form><button id="btnid2" class="btn select-value-color-orange">Report this</button>
+	  <textarea id="textareaid" placeholder="Type input.." name="msg"  required></textarea><button type="submit" id="btnid" class="btn">Send</button></form><button id="refresh" class="btn select-value-color-blue">Start a new Conversation</button><button id="btnid2" class="btn select-value-color-orange">Report this</button>
 <label id="conversation_history" for="msg"><b>History:</b></label>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script><script
       src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"
@@ -1954,5 +1954,15 @@ window.onclick = function(event) {
   }
 }
 
+
+
+
+
+
+var refreshBtn = document.getElementById("refresh");
+
+  refreshBtn.addEventListener("click", function() {
+    location.reload(); // Refresh the page
+  });
 </script>
 </body></html>
