@@ -744,11 +744,70 @@ blockquote {
   width:100%;
   text-align: left;
 }
-</style></head><body><form class="form-container">
+
+
+
+
+
+
+/* Question mark container */
+.question-mark-container {
+  position: relative;
+}
+
+/* Question mark icon */
+.question-mark {
+  cursor: pointer;
+}
+
+/* Modal */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 100;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal-content {
+  background-color: #fefefe;
+  margin: 15% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+}
+
+.close {
+  color: #aaaaaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.close:hover,
+.close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+</style><link rel="stylesheet" href="chmirafiles/star-rating.min.css?ver=4.3.0">
+<style>
+@import 'star-rating';
+
+:root {
+    --gl-star-size: 20px;
+}
+</style>
+<script src="chmirafiles/star-rating.min.js"></script>
+</head><body><form class="form-container">
 <h1>Evaluation Form </h1>
-
 <label id="labelid_user" for="msg"><b>User:</b></label>
-
 <label id="labelid2" for="msg" name="Chatty Mira"><b>Method 1:</b></label>
 <label id="eliza_response" name="Eliza"><b>Method 2:</b></label>
 <label id="falcon_response" name="Falcon"><b>Method 3:</b></label>
@@ -766,141 +825,174 @@ blockquote {
 <button id="btnid-none" class="inline-btn">None of them</button>
 <button id="btnid-nu" onclick="onFeedbackClick()" class="inline-btn">Eliza is better \/</button>
 -->
+<div id="modal-1" class="modal">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <p id="modal-text">Verbal empathy is meant to capture the 2 goals of understanding another's feelings and then reflecting that understanding via dialogue, conversation  cues, acknowledgement, or other ways of saying "I hear you" (you can think of this as the best verbal empathic response).</p>
+  </div>
+</div>
+<div id="modal-2" class="modal">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <p id="modal-text">In the context of a computer system, "engagement" refers to the ability of the system to capture and maintain the attention or interest of the user.</p>
+  </div>
+</div>
+<div id="modal-3" class="modal">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <p id="modal-text">In the context of a chatbot, "being in context" refers to the chatbot's ability to understand and maintain an understanding of the conversation and the information that has been shared during that conversation.</p>
+  </div>
+</div>
 <table id="myTable">
         <thead>
             <tr>
                 <th>Method</th>
-                <th id="engagement-score">Engaging Score [1(Lowest)-5(Highest)]</th>
-                <th id="empathy-score">Verbal Empathy Score [1(Lowest)-5(Highest)]</th>
-                <th id="context-score">Context Score [1(Lowest)-5(Highest)]</th>
+                <th id="engagement-score"> &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp Engagement Score  
+					<span id="question-mark-2" class="question-mark">(?)</span>
+				&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</th>
+                <th id="empathy-score"> &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp Verbal Empathy Score 
+				<span id="question-mark-1" class="question-mark">(?)</span>
+				&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</th>
+                <th id="context-score"> &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp Context Score
+				<span id="question-mark-3" class="question-mark">(?)</span>
+				&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</th>
             </tr>
         </thead>
         <tbody>
             <tr>
-                <td>Method 1</td>
+                <td> Method 1</td>
                 <td>
-                    <select>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-						<option value="4">4</option>
-						<option value="5">5</option>
-                    </select>
+                    <select class="star-rating" style="width:200">
+						<option value="">NA</option>
+						<option value="5">Excellent</option>
+						<option value="4">Very Good</option>
+						<option value="3">Average</option>
+						<option value="2">Poor</option>
+						<option value="1">Terrible</option>
+					</select>
                 </td>
                 <td>
-                    <select>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-						<option value="4">4</option>
-						<option value="5">5</option>
-                    </select>
+                    <select class="star-rating" style="width:200">
+						<option value="">NA</option>
+						<option value="5">Excellent</option>
+						<option value="4">Very Good</option>
+						<option value="3">Average</option>
+						<option value="2">Poor</option>
+						<option value="1">Terrible</option>
+					</select>
                 </td>
                 <td>
-                    <select>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-						<option value="4">4</option>
-						<option value="5">5</option>
-                    </select>
+                    <select class="star-rating" style="width:200">
+						<option value="">NA</option>
+						<option value="5">Excellent</option>
+						<option value="4">Very Good</option>
+						<option value="3">Average</option>
+						<option value="2">Poor</option>
+						<option value="1">Terrible</option>
+					</select>
                 </td>
             </tr>
             <tr>
                 <td>Method 2</td>
                 <td>
-                    <select>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-						<option value="4">4</option>
-						<option value="5">5</option>
-                    </select>
+                    <select class="star-rating" style="width:200">
+						<option value="">NA</option>
+						<option value="5">Excellent</option>
+						<option value="4">Very Good</option>
+						<option value="3">Average</option>
+						<option value="2">Poor</option>
+						<option value="1">Terrible</option>
+					</select>
                 </td>
                 <td>
-                    <select>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-						<option value="4">4</option>
-						<option value="5">5</option>
-                    </select>
+                    <select class="star-rating" style="width:200">
+						<option value="">NA</option>
+						<option value="5">Excellent</option>
+						<option value="4">Very Good</option>
+						<option value="3">Average</option>
+						<option value="2">Poor</option>
+						<option value="1">Terrible</option>
+					</select>
                 </td>
                 <td>
-                    <select>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-						<option value="4">4</option>
-						<option value="5">5</option>
-                    </select>
+                    <select class="star-rating" style="width:200">
+						<option value="">NA</option>
+						<option value="5">Excellent</option>
+						<option value="4">Very Good</option>
+						<option value="3">Average</option>
+						<option value="2">Poor</option>
+						<option value="1">Terrible</option>
+					</select>
                 </td>
             </tr>
             <tr>
                 <td>Method 3</td>
                 <td>
-                    <select>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-						<option value="4">4</option>
-						<option value="5">5</option>
-                    </select>
+                    <select class="star-rating" style="width:200">
+						<option value="">NA</option>
+						<option value="5">Excellent</option>
+						<option value="4">Very Good</option>
+						<option value="3">Average</option>
+						<option value="2">Poor</option>
+						<option value="1">Terrible</option>
+					</select>
                 </td>
                 <td>
-                    <select>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-						<option value="4">4</option>
-						<option value="5">5</option>
-                    </select>
+                    <select class="star-rating" style="width:200">
+						<option value="">NA</option>
+						<option value="5">Excellent</option>
+						<option value="4">Very Good</option>
+						<option value="3">Average</option>
+						<option value="2">Poor</option>
+						<option value="1">Terrible</option>
+					</select>
                 </td>
                 <td>
-                    <select>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-						<option value="4">4</option>
-						<option value="5">5</option>
-                    </select>
+                    <select class="star-rating" style="width:200">
+						<option value="">NA</option>
+						<option value="5">Excellent</option>
+						<option value="4">Very Good</option>
+						<option value="3">Average</option>
+						<option value="2">Poor</option>
+						<option value="1">Terrible</option>
+					</select>
                 </td>
             </tr>
 			<tr>
                 <td>Method 4</td>
                 <td>
-                    <select>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-						<option value="4">4</option>
-						<option value="5">5</option>
-                    </select>
+                    <select class="star-rating" style="width:200">
+						<option value="">NA</option>
+						<option value="5">Excellent</option>
+						<option value="4">Very Good</option>
+						<option value="3">Average</option>
+						<option value="2">Poor</option>
+						<option value="1">Terrible</option>
+					</select>
                 </td>
                 <td>
-                    <select>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-						<option value="4">4</option>
-						<option value="5">5</option>
-                    </select>
+                    <select class="star-rating" style="width:200">
+						<option value="">NA</option>
+						<option value="5">Excellent</option>
+						<option value="4">Very Good</option>
+						<option value="3">Average</option>
+						<option value="2">Poor</option>
+						<option value="1">Terrible</option>
+					</select>
                 </td>
                 <td>
-                    <select>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-						<option value="4">4</option>
-						<option value="5">5</option>
-                    </select>
+                    <select class="star-rating" style="width:200">
+						<option value="">NA</option>
+						<option value="5">Excellent</option>
+						<option value="4">Very Good</option>
+						<option value="3">Average</option>
+						<option value="2">Poor</option>
+						<option value="1">Terrible</option>
+					</select>
                 </td>
             </tr>
         </tbody>
     </table>
-<p id="empathy-def" style="display: none;">Verbal empathy is meant to capture the 2 goals of understanding another's feelings and then reflecting that understanding via dialogue, conversation  cues, acknowledgement, or other ways of saying "I hear you" (you can think of this as the best verbal empathic response).</p>
-<p id="engagement-def" style="display: none;">In the context of a computer system, "engagement" refers to the ability of the system to capture and maintain the attention or interest of the user.</p>
-<p id="context-def" style="display: none;">In the context of a chatbot, "being in context" refers to the chatbot's ability to understand and maintain an understanding of the conversation and the information that has been shared during that conversation.</p>
 <button id="btn-submit-feedback" onclick="calculateSum()" class="btn">submit feedback</button>
 </div>
 	  <textarea id="textareaid" placeholder="Type input.." name="msg"  required></textarea><button type="submit" id="btnid" class="btn">Send</button></form><button id="btnid2" class="btn select-value-color-orange">Report this</button>
@@ -1498,7 +1590,7 @@ s2.style.display = "none"
 			let emotion_con =  emotion ? response_.res.emotion.score : 0
 			
 			let em_ch = document.getElementById("emotion_ch")
-			em_ch.innerHTML = "Is detected emotion of the user correct?? (out of anger, fear, sadness, joy, neutral) \n detected emotion is: "+emotion_label+" (confidence:"+ emotion_con.toFixed(2)*100 + "%)"
+			em_ch.innerHTML = "detected emotion is: "+emotion_label+" (confidence:"+ emotion_con.toFixed(2)*100 + "%) out of anger, fear, sadness, joy, neutral \n Check the check box if the detected emotion is correct "
 			
 			//label2.innerHTML  = "<b>Chatty Mira:</b>\nTopic or key: "+response.res.output.key + "\nresponse:" +response.res.output.response + "\nemotion: " + emotion_label +" (confidence:"+ emotion_con.toFixed(2) * 100 + "%)"
 			l2.innerHTML  = "<b>Method 1:</b>"+response_.res.output.response
@@ -1645,14 +1737,14 @@ s2.style.display = "none"
 	}
 	promptt = ""
 	if(falcon_model_history)
-		promptt = falcon_model_history.join(' \n ') + '\n user: \"' + input+ '\". \n bot:'
+		promptt = falcon_model_history.join('....') + '....\nuser:"' + input+ '"\nbot:'
 	else
-		promptt = 'user: \"' + input+ '\". \n bot:'
+		promptt = 'user:"' + input+ '"\nbot:'
 	query({"inputs": promptt}).then((response__) => {
 		console.log("with history", JSON.stringify(response__));
 		let falcon_response = document.getElementById("falcon_response");
 		res = response__[0]["generated_text"].substring(promptt.length)
-		res = res.substring(0, res.indexOf("."))
+		res = res.substring(0, res.indexOf("\n"))
 		falcon_response.innerHTML = "<b>Method 3:</b> "+res
 		
 		let lk1 = document.getElementById("conversation_history");
@@ -1660,18 +1752,18 @@ s2.style.display = "none"
 			
 		
 		if (res.length > 6)
-			falcon_model_history.push('user: "'+input+'"\nchatbot: "'+res+'"')
-		if (falcon_model_history.length>2)
+			falcon_model_history.push('user:"'+input+'"\nbot:'+res)
+		if (falcon_model_history.length>3)
 			falcon_model_history.shift();
 		console.log('falcon history added',falcon_model_history)
 	});
 	
-	prompttt = 'user: \"' + input+ '\". \n bot:'
+	prompttt = 'user:"' + input+ '"\nbot:'
 	query({"inputs": prompttt}).then((_response_) => {
 		console.log("without history",JSON.stringify(_response_));
 		let falcon_response = document.getElementById("falcon_nh_response");
 		res = _response_[0]["generated_text"].substring(prompttt.length)
-		res = res.substring(0, res.indexOf("."))
+		res = res.substring(0, res.indexOf("\n"))
 		falcon_response.innerHTML = "<b>Method 4:</b> "+res
 		
 		let lk2 = document.getElementById("conversation_history");
@@ -1687,7 +1779,7 @@ btn.addEventListener('click', event => {
   event.preventDefault();
   var t = document.getElementById("textareaid").value;
   let ll = document.getElementById("conversation_history");
-  ll.innerHTML  = ll.innerHTML + "\nuser: "+t;
+  ll.innerHTML  = ll.innerHTML + "\n.....\nuser: "+t;
   
   //chatty mira
   sendInput(t);
@@ -1734,23 +1826,23 @@ btn2.addEventListener('click', event => {
 function calculateSum() {
 	event.preventDefault();
     var table = document.getElementById("myTable");
-            var rows = table.getElementsByTagName("tr");
-            var dropdownValues = [];
+    var rows = table.getElementsByTagName("tr");
+    var dropdownValues = [];
 
-            for (var i = 1; i < rows.length; i++) {
-                var row = rows[i];
-                var cells = row.getElementsByTagName("td");
+    for (var i = 1; i < rows.length; i++) {
+        var row = rows[i];
+        var cells = row.getElementsByTagName("td");
 
-                for (var j = 1; j < cells.length; j++) {
-                    var select = cells[j].getElementsByTagName("select")[0];
-                    var selectedValue = parseInt(select.value);
-                    dropdownValues.push(selectedValue);
-                }
-            }
+        for (var j = 1; j < cells.length; j++) {
+            var select = cells[j].getElementsByTagName("span")[0].getElementsByTagName("span")[0];
+            var selectedValue = parseInt(select.getAttribute("data-rating"));
+            dropdownValues.push(selectedValue);
+        }
+    }
 
 
 	hideFeedbackBtns();
-    console.log(dropdownValues); 
+    console.log("dropdownValues", dropdownValues); 
 	
 	//send results to backend
 	event.preventDefault();
@@ -1762,11 +1854,11 @@ function calculateSum() {
 	let falcon_nh_resp = document.getElementById("falcon_nh_response");
 	let page_source = "user:" + textarea.value +"\nCM:"+chatty_mira_resp.innerHTML+"\n Eliza:"+eliza_resp.innerHTML+" emotion is ok:"+checkboxVal + " Falcon_nh"+falcon_nh_resp.innerHTML+ " Falcon"+falcon_resp.innerHTML + "scores: "+dropdownValues
 	let url = "https://www.magharaat.ir/public/reportLog";
-	let comment = prompt(
-		"Please enter your comment:"
-		);
+	//let comment = prompt(
+	//	"Please enter your comment:"
+	//	);
 
-	if (comment !== null) {
+	//if (comment !== null) {
 		console.log("sending request now");
 
 		$.ajax({
@@ -1777,43 +1869,14 @@ function calculateSum() {
 				data: {
 					session_id: "Eval Phase 1",
 					page_source: page_source ,
-					comment: comment,
+					comment: "no comment",
 					},
 					}).done(function (msg) {
 					  console.log(msg);
-					  alert('previous conversation sent...Let`s do another one')
+					  alert('Thanks for sharing your feedback...Let`s do another one')
 					});
-	}
+	//}
 }
-	
-
-var empathyScore = document.getElementById("empathy-score");
-var empathyDef = document.getElementById("empathy-def");
-empathyScore.addEventListener("mouseover", function() {
-    empathyDef.style.display = "block";
-});
-empathyScore.addEventListener("mouseout", function() {
-    empathyDef.style.display = "none";
-});
-
-var empathyScore1 = document.getElementById("engagement-score");
-var empathyDef1 = document.getElementById("engagement-def");
-empathyScore1.addEventListener("mouseover", function() {
-    empathyDef1.style.display = "block";
-});
-empathyScore1.addEventListener("mouseout", function() {
-    empathyDef1.style.display = "none";
-});
-
-var empathy2Score = document.getElementById("context-score");
-var empathy2Def = document.getElementById("context-def");
-empathy2Score.addEventListener("mouseover", function() {
-    empathy2Def.style.display = "block";
-});
-empathy2Score.addEventListener("mouseout", function() {
-    empathy2Def.style.display = "none";
-});
-
 
 hideFeedbackBtns();
 
@@ -1822,6 +1885,74 @@ falcon_model_history = []
 
 
 
+
+
+
+
+
+window.addEventListener("DOMContentLoaded", function() {
+
+	var starRatingControl = new StarRating('.star-rating',{
+		maxStars: 5,
+		prebuilt: false,
+		stars: null,
+		tooltip: 'NA',
+	});
+	starRatingControl.rebuild();
+
+});
+
+
+
+
+
+
+
+
+
+
+// Get the modal element
+var modal1 = document.getElementById("modal-1");
+var modal2 = document.getElementById("modal-2");
+var modal3 = document.getElementById("modal-3");
+
+// Get the question mark icon element
+var questionMark1 = document.getElementById("question-mark-1");
+var questionMark2 = document.getElementById("question-mark-2");
+var questionMark3 = document.getElementById("question-mark-3");
+
+// Get the close button element
+var closeBtns = document.getElementsByClassName("close");
+for (var i = 0; i < closeBtns.length; i++) {
+  var closeElement = closeBtns[i];
+	// Close the modal when the close button is clicked
+	closeElement.onclick = function(event) {
+	  event.target.parentNode.parentNode.style.display = "none";
+	}
+  }
+
+// Open the modal when the question mark icon is clicked
+questionMark1.onclick = function() {
+  modal1.style.display = "block";
+}
+questionMark2.onclick = function() {
+  modal2.style.display = "block";
+}
+questionMark3.onclick = function() {
+  modal3.style.display = "block";
+}
+
+
+// Close the modal when the user clicks outside the modal
+window.onclick = function(event) {
+  if (event.target == modal1) {
+    modal1.style.display = "none";
+  }else if (event.target == modal2) {
+    modal2.style.display = "none";
+  } else if (event.target == modal3) {
+    modal3.style.display = "none";
+  }
+}
 
 </script>
 </body></html>
