@@ -1590,7 +1590,7 @@ s2.style.display = "none"
 			let emotion_con =  emotion ? response_.res.emotion.score : 0
 			
 			let em_ch = document.getElementById("emotion_ch")
-			em_ch.innerHTML = "detected emotion is: "+emotion_label+" (confidence:"+ emotion_con.toFixed(2)*100 + "%) out of anger, fear, sadness, joy, neutral \n Check the check box if the detected emotion is correct "
+			em_ch.innerHTML = "detected emotion is: <b>"+emotion_label+"</b> (confidence:"+ emotion_con.toFixed(2)*100 + "%) out of anger, fear, sadness, joy, neutral \n Check the check box if the detected emotion is correct "
 			
 			//label2.innerHTML  = "<b>Chatty Mira:</b>\nTopic or key: "+response.res.output.key + "\nresponse:" +response.res.output.response + "\nemotion: " + emotion_label +" (confidence:"+ emotion_con.toFixed(2) * 100 + "%)"
 			l2.innerHTML  = "<b>Method 1:</b>"+response_.res.output.response
